@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - BioNature</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Style pour la carte ronde */
+        .map-container {
+            margin-top: 40px;
+            text-align: center;
+            width: 300px; /* Ajuste la taille */
+            height: 300px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Styles généraux du formulaire */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 90%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer */
+        .footer-info {
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="produits.html">Produits</a></li>
+                <li><a href="about.html">Àpropos</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Contactez-nous</h1>
+    
+    <section>
+        <p>Si vous avez des questions ou souhaitez plus d'informations sur nos produits, n'hésitez pas à nous contacter.</p>
+
+        <!-- FORMULAIRE -->
+        <form>
+            <label for="name">Nom :</label>
+            <input type="text" id="name" name="name" placeholder="Evariste" required>
+
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" placeholder="exemple@gmail.com" required>
+
+            <label for="message">Message :</label>
+            <textarea id="message" name="message" rows="5" placeholder="Écrivez votre message ici" required></textarea>
+
+            <!-- Boutons pour WhatsApp et Email -->
+            <button type="button" onclick="sendToWhatsApp()">Envoyer sur WhatsApp</button>
+            <button type="submit" formaction="https://formsubmit.co/imranfoxhafiz@gmail.com" method="POST">Envoyer par Email</button>
+        </form>
+
+        <!-- Carte de localisation -->
+        <h2 style="text-align:center; margin-top:30px;">Nous Trouver</h2>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.653507289907!2d144.9560544153186!3d-37.81720997975102!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d54e5f0ef89%3A0x5045675218ce6e0!2sMelbourne%20CBD%2C%20Victoria%2C%20Australia!5e0!3m2!1sen!2sus!4v1613434632711!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 BioNature - Tous droits réservés</p>
+    </footer>
+
+    <!-- Information sur le designer -->
+    <div class="footer-info">
+        <p>Design By Hafiz Imran Kumbi Evariste</p>
+    </div>
+
+    <script>
+        function sendToWhatsApp() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            if (name.trim() === "" || email.trim() === "" || message.trim() === "") {
+                alert("Veuillez remplir tous les champs !");
+                return;
+            }
+
+            const phoneNumber = "+243977252100"; // Mets ton numéro ici
+            const text = `Nom: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${text}`;
+
+            window.open(whatsappURL, "_blank");
+        }
+    </script>
+</body>
+</html>
