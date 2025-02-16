@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - BioNature</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Style général */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 20px;
+            color: white;
+            background: #4CAF50;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 15px;
+            background: #222;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Style des statistiques */
+        .stats-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        /* Formulaire pour l'ajout d'image */
+        input[type="file"] {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Tableau de Bord - BioNature</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">🏠 Accueil</a></li>
+                <li><a href="gerer-produits.html">📦 Gérer les produits</a></li>
+                <li><a href="messages.html">📩 Voir les messages</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Bienvenue, Admin !</h1>
+        <p>Gérez vos produits et consultez les messages des clients.</p>
+
+        <div class="btn-container">
+            <a href="#" class="btn" id="btnManageProducts">📦 Gérer les Produits</a>
+            <a href="#" class="btn" id="btnViewMessages">📩 Voir les Messages</a>
+        </div>
+
+        <!-- Formulaire de gestion des produits -->
+        <div id="productForm" style="display: none;">
+            <h2>Ajouter un produit</h2>
+            <form id="addProductForm">
+                <input type="text" id="productName" placeholder="Nom du produit" required>
+                <input type="number" id="productPrice" placeholder="Prix du produit" required>
+                <textarea id="productDescription" placeholder="Description du produit" required></textarea>
+                <input type="url" id="productAffiliateLink" placeholder="Lien d'affiliation" required>
+                <input type="file" id="productImage" accept="image/*" required>
+                <button type="submit" class="btn">Ajouter le produit</button>
+            </form>
+        </div>
+
+        <!-- Gestion des messages -->
+        <div id="messagesContainer" style="display: none;">
+            <h2>Messages des clients</h2>
+            <ul id="messagesList">
+                <!-- Les messages s'afficheront ici -->
+            </ul>
+        </div>
+
+        <!-- Statistiques et graphiques -->
+        <div class="stats-container">
+            <h2>Statistiques des clics et visiteurs</h2>
+            <canvas id="clicsChart" width="400" height="200"></canvas>
+            <p><strong>Total des clics :</strong> <span id="total-clicks">0</span></p>
+            <p><strong>Visiteurs uniques :</strong> <span id="unique-visitors">0</span></p>
+        </div>
+
+        <!-- Paramètres de personnalisation du design -->
+        <div class="container">
+            <h2>Personnaliser le design</h2>
+            <form id="design-form">
+                <label for="background-color">Couleur de fond :</label>
+                <input type="color" id="background-color" name="background-color" value="#f4f4f4">
+                <br><br>
+                <label for="button-color">Couleur des boutons :</label>
+                <input type="color" id="button-color" name="button-color" value="#4CAF50">
+                <br><br>
+                <button type="submit" class="btn">Appliquer</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 BioNature - Tous droits réservés</p>
+        <p>Design By Hafiz Imran Kumbi Evariste</p>
+    </footer>
+
+    <script>
+        // Données des clics pour le graphique (peut être dynamique avec Firebase ou autre)
+        const clicsData = [12, 19, 3];
+
+        // Création du graphique des clics
+        const clicsChart = new Chart(document.getElementById('clicsChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Jour 1', 'Jour 2', 'Jour 3'],
+                datasets: [{
+                    label: 'Clics sur "Acheter maintenant"',
+                    data: clicsData,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Mise à jour des statistiques
+        document.getElementById('total-clicks').textContent = clicsData.reduce((a, b) => a + b, 0);
+        document.getElementById('unique-visitors').textContent = 123; // Exemple de visiteurs uniques
+
+        // Gestion des produits
+        document.getElementById('btnManageProducts').addEventListener('click', function() {
+            document.getElementById('productForm').style.display = 'block';
+            document.getElementById('messagesContainer').style.display = 'none';
+        });
+
+        // Gestion des messages
+        document.getElementById('btnViewMessages').addEventListener('click', function() {
+            document.getElementById('messagesContainer').style.display = 'block';
+            document.getElementById('productForm').style.display = 'none';
+
+            // Charger les messages (exemple statique)
+            const messages = [
+                'Message 1: Très satisfait du produit !',
+                'Message 2: Livraison rapide, merci !'
+            ];
+            const messagesList = document.getElementById('messagesList');
+            messagesList.innerHTML = '';
+            messages.forEach(message => {
+                const li = document.createElement('li');
+                li.textContent = message;
+                messagesList.appendChild(li);
+            });
+        });
+
+        // Fonction pour personnaliser le design
+        document.getElementById('design-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const backgroundColor = document.getElementById('background-color').value;
+            const buttonColor = document.getElementById('button-color').value;
+
+            document.body.style.backgroundColor = backgroundColor;
+            document.querySelectorAll('.btn').forEach(function(btn) {
+                btn.style.backgroundColor = buttonColor;
+            });
+        });
+
+        // Gestion de l'ajout de produit (Simulée)
+        document.getElementById('addProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const description = document.getElementById('productDescription').value;
+            const affiliateLink = document.getElementById('productAffiliateLink').value;
+            const image = document.getElementById('productImage').files[0];
+
+            console.log('Produit ajouté :', {
+                name,
+                price,
+                description,
+                affiliateLink,
+                image
+            });
+
+            // Réinitialisation du formulaire après soumission
+            document.getElementById('addProductForm').reset();
+        });
+    </script>
+
+</body>
+</html>
